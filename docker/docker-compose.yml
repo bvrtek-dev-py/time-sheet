@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  db:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb-data:/data/db
+    env_file:
+      - '../src/settings/.env'
+    container_name: time_sheet-db
+
+volumes:
+  mongodb-data:
