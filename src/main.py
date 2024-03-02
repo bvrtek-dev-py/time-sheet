@@ -1,12 +1,10 @@
 import uvicorn
 from fastapi import FastAPI
 
+from time_sheet.src.infrastructure.ports.api.user.routers import router as user_router
+
 app = FastAPI()
-
-
-@app.get("/", response_model=None)
-async def hello_world():
-    return {"hello": "world"}
+app.include_router(user_router)
 
 
 if __name__ == "__main__":
