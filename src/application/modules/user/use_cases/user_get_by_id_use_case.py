@@ -1,5 +1,3 @@
-from typing import List
-
 from time_sheet.src.core.modules.user.dto.user import UserDTO
 from time_sheet.src.core.modules.user.repositories.user_repository import (
     IUserRepository,
