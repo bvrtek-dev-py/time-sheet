@@ -19,8 +19,8 @@ class IProjectRepository(ABC):
 
     @abstractmethod
     async def delete(self, id: str) -> None:
-        pass
+        ...
 
     @abstractmethod
     async def update(self, project: ProjectDTO) -> ProjectDTO:
-        pass
+        ...

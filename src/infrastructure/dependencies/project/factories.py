@@ -13,14 +13,14 @@ from time_sheet.src.application.modules.project.use_cases.project_create_use_cas
 from time_sheet.src.application.modules.project.use_cases.project_delete_use_case import (
     ProjectDeleteUseCase,
 )
-from time_sheet.src.application.modules.project.use_cases.project_update_use_case import (
-    ProjectUpdateUseCase,
-)
 from time_sheet.src.application.modules.project.use_cases.project_get_all_use_case import (
     ProjectGetAllUseCase,
 )
 from time_sheet.src.application.modules.project.use_cases.project_get_by_id_use_case import (
     ProjectGetByIdUseCase,
+)
+from time_sheet.src.application.modules.project.use_cases.project_update_use_case import (
+    ProjectUpdateUseCase,
 )
 from time_sheet.src.core.modules.project.repositories.project_repository import (
     IProjectRepository,
@@ -31,19 +31,13 @@ from time_sheet.src.infrastructure.dependencies.database.setup import get_sessio
 def get_project_repository(
         session: Annotated[AsyncIOMotorClientSession, Depends(get_session)]
 ) -> IProjectRepository:
-    return ProjectRepository(session)
+    return IProjectRepository(session)
 
 
 def get_project_create_use_case(
         repository: Annotated[ProjectRepository, Depends(get_project_repository)]
 ) -> ProjectCreateUseCase:
     return ProjectCreateUseCase(repository)
-
-
-def get_project_delete_use_case(
-        repository: Annotated[ProjectRepository, Depends(get_project_repository)]
-) -> ProjectDeleteUseCase:
-    return ProjectDeleteUseCase(repository)
 
 
 def get_project_get_by_id_use_case(
@@ -60,12 +54,23 @@ def get_project_get_all_use_case(
 
 def get_project_update_use_case(
         repository: Annotated[ProjectRepository, Depends(get_project_repository)],
-        project_get_by_id_use_case: Annotated[
+        get_by_id_use_case: Annotated[
             ProjectGetByIdUseCase, Depends(get_project_get_by_id_use_case)
         ],
 ) -> ProjectUpdateUseCase:
     return ProjectUpdateUseCase(
-        repository=repository, get_by_id_use_case=project_get_by_id_use_case
+        repository=repository, get_by_id_use_case=get_by_id_use_case
+    )
+
+
+def get_project_delete_use_case(
+        repository: Annotated[ProjectRepository, Depends(get_project_repository)],
+        get_by_id_use_case: Annotated[
+            ProjectGetByIdUseCase, Depends(get_project_get_by_id_use_case)
+        ],
+) -> ProjectDeleteUseCase:
+    return ProjectDeleteUseCase(
+        repository=repository, get_by_id_use_case=get_by_id_use_case
     )
 
 
