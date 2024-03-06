@@ -31,7 +31,7 @@ from time_sheet.src.infrastructure.dependencies.database.setup import get_sessio
 def get_project_repository(
         session: Annotated[AsyncIOMotorClientSession, Depends(get_session)]
 ) -> IProjectRepository:
-    return IProjectRepository(session)
+    return ProjectRepository(session)
 
 
 def get_project_create_use_case(
