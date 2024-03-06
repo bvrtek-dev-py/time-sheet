@@ -40,12 +40,6 @@ def get_user_create_use_case(
     return UserCreateUseCase(repository)
 
 
-def get_user_delete_use_case(
-    repository: Annotated[UserRepository, Depends(get_user_repository)]
-) -> UserDeleteUseCase:
-    return UserDeleteUseCase(repository)
-
-
 def get_user_get_by_id_use_case(
     repository: Annotated[UserRepository, Depends(get_user_repository)]
 ) -> UserGetByIdUseCase:
@@ -60,12 +54,23 @@ def get_user_get_all_use_case(
 
 def get_user_update_use_case(
     repository: Annotated[UserRepository, Depends(get_user_repository)],
-    user_get_by_id_use_case: Annotated[
+    get_by_id_use_case: Annotated[
         UserGetByIdUseCase, Depends(get_user_get_by_id_use_case)
     ],
 ) -> UserUpdateUseCase:
     return UserUpdateUseCase(
-        repository=repository, get_by_id_use_case=user_get_by_id_use_case
+        repository=repository, get_by_id_use_case=get_by_id_use_case
+    )
+
+
+def get_user_delete_use_case(
+    repository: Annotated[UserRepository, Depends(get_user_repository)],
+    get_by_id_use_case: Annotated[
+        UserGetByIdUseCase, Depends(get_user_get_by_id_use_case)
+    ],
+) -> UserDeleteUseCase:
+    return UserDeleteUseCase(
+        repository=repository, get_by_id_use_case=get_by_id_use_case
     )
 
 
