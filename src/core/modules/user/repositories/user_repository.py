@@ -14,11 +14,11 @@ class IUserRepository(ABC):
         pass
 
     @abstractmethod
-    async def get_by_id(self, id: str) -> UserDTO:
+    async def get_by_id(self, user_id: str) -> UserDTO | None:
         pass
 
     @abstractmethod
-    async def delete(self, id: str) -> None:
+    async def delete(self, user_id: str) -> None:
         ...
 
     @abstractmethod

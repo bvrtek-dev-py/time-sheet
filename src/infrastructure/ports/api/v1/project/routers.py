@@ -2,15 +2,12 @@ from typing import Annotated, List
 
 from fastapi import APIRouter, Depends, status
 
-from time_sheet.src.infrastructure.ports.api.v1.common.responses import (
-    NoContentResponse,
-)
-from time_sheet.src.application.modules.project.services.project_service import (
-    ProjectService,
-)
 from time_sheet.src.application.modules.project.dto.project import (
     ProjectCreateDTO,
     ProjectUpdateDTO,
+)
+from time_sheet.src.application.modules.project.services.project_service import (
+    ProjectService,
 )
 from time_sheet.src.infrastructure.dependencies.project.factories import (
     get_project_service,
@@ -40,31 +37,31 @@ async def create_project(
 
 
 @router.put(
-    "/{id}",
+    "/{project_id}",
     response_model=ProjectBaseResponse,
     responses={200: {"model": ProjectBaseResponse}},
     status_code=status.HTTP_200_OK,
 )
 async def update_project(
-    id: str,
+    project_id: str,
     request: ProjectUpdateRequest,
     project_service: Annotated[ProjectService, Depends(get_project_service)],
 ):
     return await project_service.update(
-        id=id, request_dto=ProjectUpdateDTO(**request.model_dump())
+        project_id=project_id, request_dto=ProjectUpdateDTO(**request.model_dump())
     )
 
 
 @router.delete(
-    "/{id}",
-    responses={204: {"model": NoContentResponse}},
+    "/{project_id}",
+    responses={204: {"model": None}},
     status_code=status.HTTP_204_NO_CONTENT,
 )
 async def delete_project(
-    id: str,
+    project_id: str,
     project_service: Annotated[ProjectService, Depends(get_project_service)],
 ):
-    return await project_service.delete(id)
+    return await project_service.delete(project_id)
 
 
 @router.get(
@@ -80,13 +77,13 @@ async def get_all_projects(
 
 
 @router.get(
-    "/{id}",
+    "/{project_id}",
     response_model=ProjectBaseResponse,
     responses={200: {"model": ProjectBaseResponse}},
     status_code=status.HTTP_200_OK,
 )
 async def get_by_id(
-    id: str,
+    project_id: str,
     project_service: Annotated[ProjectService, Depends(get_project_service)],
 ):
-    return await project_service.get_by_id(id)
+    return await project_service.get_by_id(project_id)

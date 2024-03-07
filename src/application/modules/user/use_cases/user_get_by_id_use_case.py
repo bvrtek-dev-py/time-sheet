@@ -10,8 +10,8 @@ class UserGetByIdUseCase:
     def __init__(self, repository: IUserRepository):
         self._repository = repository
 
-    async def execute(self, id: str) -> UserDTO:
-        user = await self._repository.get_by_id(id=id)
+    async def execute(self, user_id: str) -> UserDTO:
+        user = await self._repository.get_by_id(user_id=user_id)
 
         if user is None:
             raise ObjectDoesNotExist

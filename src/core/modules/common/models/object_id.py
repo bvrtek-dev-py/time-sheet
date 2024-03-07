@@ -11,5 +11,5 @@ class ObjectId(ObjectIdBson):
     def validate(cls, v: str):
         try:
             return cls(v)
-        except InvalidId:
-            raise ValueError("Not a valid ObjectId")
+        except InvalidId as exception:
+            raise ValueError("Not a valid ObjectId") from exception

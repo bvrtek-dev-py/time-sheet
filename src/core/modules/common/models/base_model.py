@@ -10,5 +10,5 @@ class MongoDBModel(BaseModel):
 
     class ConfigDict:
         json_encoders = {
-            ObjectId: lambda value: str(value),
+            ObjectId: lambda value: str(value),  # pylint: disable=W0108
         }

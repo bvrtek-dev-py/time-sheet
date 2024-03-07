@@ -1,7 +1,7 @@
 from typing import Annotated
 
 from fastapi import Depends
-from motor.motor_asyncio import AsyncIOMotorClientSession
+from motor.core import AgnosticClientSession
 
 from time_sheet.src.adapters.modules.user.repositories.user_repository import (
     UserRepository,
@@ -29,7 +29,7 @@ from time_sheet.src.infrastructure.dependencies.database.setup import get_sessio
 
 
 def get_user_repository(
-    session: Annotated[AsyncIOMotorClientSession, Depends(get_session)]
+    session: Annotated[AgnosticClientSession, Depends(get_session)]
 ) -> IUserRepository:
     return UserRepository(session)
 

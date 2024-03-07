@@ -1,8 +1,8 @@
-from typing import Annotated
+from typing import Annotated, AsyncGenerator
 
 from fastapi import Depends
-from motor.core import AgnosticClient, AgnosticDatabase
-from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorClientSession
+from motor.core import AgnosticClient, AgnosticDatabase, AgnosticClientSession
+from motor.motor_asyncio import AsyncIOMotorClient
 
 from time_sheet.src.settings.database import MONGO_DB_URL, MONGO_INITDB_DATABASE
 
@@ -19,7 +19,7 @@ def get_database(
 
 async def get_session(
     database: Annotated[AgnosticDatabase, Depends(get_database)]
-) -> AsyncIOMotorClientSession:
+) -> AsyncGenerator[AgnosticClientSession, None]:
     session = await database.client.start_session()
     async with session.start_transaction():
         try:
