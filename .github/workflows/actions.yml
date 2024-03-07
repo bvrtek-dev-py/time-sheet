@@ -34,8 +34,8 @@ jobs:
 
       - name: Mypy type checking
         run:
-          poetry run mypy .
+          mypy .
 
       - name: Pylint code linting
         run:
-          poetry run pylint backend
+          pylint src
