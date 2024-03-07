@@ -44,4 +44,6 @@ class ProjectRepository(IProjectRepository):
     async def get_by_id(self, id: str) -> ProjectDTO | None:
         document = await self._session.find_one({"_id": ObjectId(id)})
 
-        return ProjectDTO(**document | {"_id": str(document["_id"])}) if document else None
+        return (
+            ProjectDTO(**document | {"_id": str(document["_id"])}) if document else None
+        )

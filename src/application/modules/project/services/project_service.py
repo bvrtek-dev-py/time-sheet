@@ -24,12 +24,12 @@ from time_sheet.src.application.modules.project.use_cases.project_get_by_id_use_
 
 class ProjectService:
     def __init__(
-            self,
-            create_use_case: ProjectCreateUseCase,
-            delete_use_case: ProjectDeleteUseCase,
-            update_use_case: ProjectUpdateUseCase,
-            get_all_use_case: ProjectGetAllUseCase,
-            get_by_id_use_case: ProjectGetByIdUseCase,
+        self,
+        create_use_case: ProjectCreateUseCase,
+        delete_use_case: ProjectDeleteUseCase,
+        update_use_case: ProjectUpdateUseCase,
+        get_all_use_case: ProjectGetAllUseCase,
+        get_by_id_use_case: ProjectGetByIdUseCase,
     ):
         self._create_use_case = create_use_case
         self._delete_use_case = delete_use_case

@@ -12,7 +12,7 @@ from time_sheet.src.core.modules.project.repositories.project_repository import 
 
 class ProjectUpdateUseCase:
     def __init__(
-            self, repository: IProjectRepository, get_by_id_use_case: ProjectGetByIdUseCase
+        self, repository: IProjectRepository, get_by_id_use_case: ProjectGetByIdUseCase
     ):
         self._repository = repository
         self._get_by_id_use_case = get_by_id_use_case
