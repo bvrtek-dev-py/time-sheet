@@ -2,6 +2,7 @@ from typing import Annotated, List
 
 from fastapi import APIRouter, Depends, status
 
+from time_sheet.src.infrastructure.ports.api.v1.common.responses import ErrorResponse
 from time_sheet.src.application.modules.user.dto.user import (
     UserCreateDTO,
     UserUpdateDTO,
@@ -35,7 +36,7 @@ async def create_user(
 @router.put(
     "/{user_id}",
     response_model=UserBaseResponse,
-    responses={200: {"model": UserBaseResponse}},
+    responses={200: {"model": UserBaseResponse}, 404: {"model": ErrorResponse}},
     status_code=status.HTTP_200_OK,
 )
 async def update_user(
@@ -50,7 +51,7 @@ async def update_user(
 
 @router.delete(
     "/{user_id}",
-    responses={204: {"model": None}},
+    responses={204: {"model": None}, 404: {"model": ErrorResponse}},
     status_code=status.HTTP_204_NO_CONTENT,
 )
 async def delete_user(
@@ -75,7 +76,7 @@ async def get_all_users(
 @router.get(
     "/{user_id}",
     response_model=UserBaseResponse,
-    responses={200: {"model": UserBaseResponse}},
+    responses={200: {"model": UserBaseResponse}, 404: {"model": ErrorResponse}},
     status_code=status.HTTP_200_OK,
 )
 async def get_by_id(
