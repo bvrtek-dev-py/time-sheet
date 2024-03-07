@@ -2,6 +2,7 @@ from typing import Annotated, List
 
 from fastapi import APIRouter, Depends, status
 
+from time_sheet.src.infrastructure.ports.api.v1.common.responses import ErrorResponse
 from time_sheet.src.application.modules.project.dto.project import (
     ProjectCreateDTO,
     ProjectUpdateDTO,
@@ -39,7 +40,7 @@ async def create_project(
 @router.put(
     "/{project_id}",
     response_model=ProjectBaseResponse,
-    responses={200: {"model": ProjectBaseResponse}},
+    responses={200: {"model": ProjectBaseResponse}, 404: {"model": ErrorResponse}},
     status_code=status.HTTP_200_OK,
 )
 async def update_project(
@@ -54,7 +55,7 @@ async def update_project(
 
 @router.delete(
     "/{project_id}",
-    responses={204: {"model": None}},
+    responses={204: {"model": None}, 404: {"model": ErrorResponse}},
     status_code=status.HTTP_204_NO_CONTENT,
 )
 async def delete_project(
@@ -79,7 +80,7 @@ async def get_all_projects(
 @router.get(
     "/{project_id}",
     response_model=ProjectBaseResponse,
-    responses={200: {"model": ProjectBaseResponse}},
+    responses={200: {"model": ProjectBaseResponse}, 404: {"model": ErrorResponse}},
     status_code=status.HTTP_200_OK,
 )
 async def get_by_id(
