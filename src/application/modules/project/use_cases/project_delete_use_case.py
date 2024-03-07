@@ -13,7 +13,7 @@ class ProjectDeleteUseCase:
         self._repository = repository
         self._get_by_id_use_case = get_by_id_use_case
 
-    async def execute(self, id: str) -> None:
-        await self._get_by_id_use_case.execute(id)
+    async def execute(self, project_id: str) -> None:
+        await self._get_by_id_use_case.execute(project_id)
 
-        return await self._repository.delete(id=id)
+        return await self._repository.delete(project_id=project_id)

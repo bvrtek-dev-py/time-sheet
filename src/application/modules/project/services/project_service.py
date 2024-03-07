@@ -1,6 +1,6 @@
+# pylint: disable=R0801, R0913
 from typing import List
 
-from time_sheet.src.core.modules.project.dto.project import ProjectDTO
 from time_sheet.src.application.modules.project.dto.project import (
     ProjectCreateDTO,
     ProjectUpdateDTO,
@@ -11,15 +11,16 @@ from time_sheet.src.application.modules.project.use_cases.project_create_use_cas
 from time_sheet.src.application.modules.project.use_cases.project_delete_use_case import (
     ProjectDeleteUseCase,
 )
-from time_sheet.src.application.modules.project.use_cases.project_update_use_case import (
-    ProjectUpdateUseCase,
-)
 from time_sheet.src.application.modules.project.use_cases.project_get_all_use_case import (
     ProjectGetAllUseCase,
 )
 from time_sheet.src.application.modules.project.use_cases.project_get_by_id_use_case import (
     ProjectGetByIdUseCase,
 )
+from time_sheet.src.application.modules.project.use_cases.project_update_use_case import (
+    ProjectUpdateUseCase,
+)
+from time_sheet.src.core.modules.project.dto.project import ProjectDTO
 
 
 class ProjectService:
@@ -40,14 +41,18 @@ class ProjectService:
     async def create(self, request_dto: ProjectCreateDTO) -> ProjectDTO:
         return await self._create_use_case.execute(request_dto)
 
-    async def update(self, id: str, request_dto: ProjectUpdateDTO) -> ProjectDTO:
-        return await self._update_use_case.execute(request_dto=request_dto, id=id)
+    async def update(
+        self, project_id: str, request_dto: ProjectUpdateDTO
+    ) -> ProjectDTO:
+        return await self._update_use_case.execute(
+            request_dto=request_dto, project_id=project_id
+        )
 
-    async def delete(self, id: str) -> None:
-        return await self._delete_use_case.execute(id)
+    async def delete(self, project_id: str) -> None:
+        return await self._delete_use_case.execute(project_id)
 
     async def get_all(self) -> List[ProjectDTO]:
         return await self._get_all_use_case.execute()
 
-    async def get_by_id(self, id: str) -> ProjectDTO:
-        return await self._get_by_id_use_case.execute(id)
+    async def get_by_id(self, project_id: str) -> ProjectDTO:
+        return await self._get_by_id_use_case.execute(project_id)

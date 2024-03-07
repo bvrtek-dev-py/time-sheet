@@ -1,7 +1,7 @@
 from typing import Annotated
 
 from fastapi import Depends
-from motor.motor_asyncio import AsyncIOMotorClientSession
+from motor.core import AgnosticClientSession
 
 from time_sheet.src.adapters.modules.project.repositories.project_repository import (
     ProjectRepository,
@@ -31,7 +31,7 @@ from time_sheet.src.infrastructure.dependencies.database.setup import get_sessio
 
 
 def get_project_repository(
-    session: Annotated[AsyncIOMotorClientSession, Depends(get_session)]
+    session: Annotated[AgnosticClientSession, Depends(get_session)]
 ) -> IProjectRepository:
     return ProjectRepository(session)
 

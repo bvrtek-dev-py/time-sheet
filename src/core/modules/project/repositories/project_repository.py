@@ -14,11 +14,13 @@ class IProjectRepository(ABC):
         pass
 
     @abstractmethod
-    async def get_by_id(self, id: str) -> ProjectDTO:
+    async def get_by_id(self, project_id: str) -> ProjectDTO | None:
         pass
 
     @abstractmethod
-    async def delete(self, id: str) -> None: ...
+    async def delete(self, project_id: str) -> None:
+        pass
 
     @abstractmethod
-    async def update(self, project: ProjectDTO) -> ProjectDTO: ...
+    async def update(self, project: ProjectDTO) -> ProjectDTO:
+        pass

@@ -10,8 +10,8 @@ class ProjectGetByIdUseCase:
     def __init__(self, repository: IProjectRepository):
         self._repository = repository
 
-    async def execute(self, id: str) -> ProjectDTO:
-        project = await self._repository.get_by_id(id=id)
+    async def execute(self, project_id: str) -> ProjectDTO:
+        project = await self._repository.get_by_id(project_id=project_id)
 
         if project is None:
             raise ObjectDoesNotExist

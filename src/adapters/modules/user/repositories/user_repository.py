@@ -1,19 +1,18 @@
 from typing import List
 
 from bson import ObjectId
-from motor.core import AgnosticCollection
-from motor.motor_asyncio import AsyncIOMotorClientSession
+from motor.core import AgnosticClientSession, AgnosticCollection
 
-from core.modules.user.models.user import User
 from time_sheet.src.core.modules.user.dto.user import UserDTO
+from time_sheet.src.core.modules.user.models.user import User
 from time_sheet.src.core.modules.user.repositories.user_repository import (
     IUserRepository,
 )
 
 
 class UserRepository(IUserRepository):
-    def __init__(self, session: AsyncIOMotorClientSession):
-        self._session: AgnosticCollection = session.client.get_database()["users"]
+    def __init__(self, session: AgnosticClientSession):
+        self._session: AgnosticCollection = session.client.get_database()["users"]  # type: ignore
 
     async def save(self, user: UserDTO) -> UserDTO:
         model = User(**user.model_dump())
@@ -30,8 +29,8 @@ class UserRepository(IUserRepository):
 
         return user
 
-    async def delete(self, id: str) -> None:
-        await self._session.delete_one({"_id": ObjectId(id)})
+    async def delete(self, user_id: str) -> None:
+        await self._session.delete_one({"_id": ObjectId(user_id)})
 
     async def get_all(self) -> List[UserDTO]:
         documents = await self._session.find().to_list(length=None)
@@ -41,7 +40,7 @@ class UserRepository(IUserRepository):
             for document in documents
         ]
 
-    async def get_by_id(self, id: str) -> UserDTO | None:
-        document = await self._session.find_one({"_id": ObjectId(id)})
+    async def get_by_id(self, user_id: str) -> UserDTO | None:
+        document = await self._session.find_one({"_id": ObjectId(user_id)})
 
         return UserDTO(**document | {"_id": str(document["_id"])}) if document else None
