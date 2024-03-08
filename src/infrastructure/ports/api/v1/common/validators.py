@@ -10,7 +10,6 @@ def validate_date_format(date):
     try:
         datetime.strptime(date, "%Y-%m-%dT%H:%M:%S.%fZ")
     except ValueError as exc:
-        x = exc
         raise InvalidDateFormat from exc
 
 

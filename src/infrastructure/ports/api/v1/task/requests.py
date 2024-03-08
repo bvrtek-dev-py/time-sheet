@@ -15,9 +15,9 @@ class TaskBaseRequest(BaseModel):
 
     @model_validator(mode="before")
     def validate_dates(self) -> "TaskBaseRequest":
-        validate_date_format(self["start"])
-        validate_date_format(self["end"])
-        validate_date_range(self["start"], self["end"])
+        validate_date_format(self.get("start"))
+        validate_date_format(self.get("end"))
+        validate_date_range(self.get("start"), self.get("end"))
         return self
 
 
