@@ -9,10 +9,14 @@ from time_sheet.src.infrastructure.ports.api.v1.project.routers import (
 from time_sheet.src.infrastructure.ports.api.v1.user.routers import (
     router as user_router,
 )
+from time_sheet.src.infrastructure.ports.api.v1.task.routers import (
+    router as task_router,
+)
 
 app = FastAPI()
 app.include_router(user_router)
 app.include_router(project_router)
+app.include_router(task_router)
 
 app.add_exception_handler(BaseHttpException, http_exception_handler)  # type: ignore
 
