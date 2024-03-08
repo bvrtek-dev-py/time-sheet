@@ -1,5 +1,4 @@
 from datetime import datetime
-from typing import Any
 from pydantic import BaseModel, model_validator
 from pydantic import Field
 from time_sheet.src.infrastructure.ports.api.v1.common.validators import (
@@ -14,7 +13,7 @@ class TaskBaseRequest(BaseModel):
     additional_information: str = Field(..., min_length=5, max_length=100)
 
     @model_validator(mode="after")
-    def validate_dates(self) -> Any:
+    def validate_dates(self) -> "TaskBaseRequest":
         validate_date_range(self.start, self.end)
         return self
 
