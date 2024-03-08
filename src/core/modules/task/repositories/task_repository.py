@@ -1,3 +1,4 @@
+# pylint: disable=R0801
 from abc import ABC, abstractmethod
 from typing import List
 from time_sheet.src.core.modules.task.dto.task import TaskDTO
@@ -17,7 +18,9 @@ class ITaskRepository(ABC):
         pass
 
     @abstractmethod
-    async def delete(self, task_id: str) -> None: ...
+    async def delete(self, task_id: str) -> None:
+        pass
 
     @abstractmethod
-    async def update(self, task: TaskDTO) -> TaskDTO: ...
+    async def update(self, task: TaskDTO) -> TaskDTO:
+        pass
