@@ -1,3 +1,4 @@
+# pylint: disable=C0301
 from time_sheet.src.application.modules.user.use_cases.user_get_by_email_or_username_use_case import (
     UserGetByEmailOrUsernameUseCase,
 )
