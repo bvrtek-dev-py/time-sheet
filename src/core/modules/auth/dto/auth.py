@@ -1,10 +1,11 @@
 # pylint: disable=R0801
 from datetime import datetime
+from typing import Optional
 from pydantic import BaseModel
 
 
 class AuthenticatedUserDTO(BaseModel):
-    id: str
+    id: Optional[str] = None
     sub: str
 
 
