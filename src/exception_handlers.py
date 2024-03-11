@@ -1,4 +1,4 @@
-# pylint: disable=W0613
+# pylint: disable=W0613, R0911
 from fastapi import status
 from fastapi.requests import Request
 from fastapi.responses import JSONResponse
@@ -10,6 +10,7 @@ from time_sheet.src.core.modules.common.exceptions.domain import (
     InvalidDateRange,
     InvalidCredentials,
     PasswordDoesNotMatch,
+    EmailAlreadyExists,
 )
 
 
@@ -35,6 +36,11 @@ def http_exception_handler(request: Request, exception: BaseHttpException):
             content={"detail": exception.detail},
         )
     if isinstance(exception, PasswordDoesNotMatch):
+        return JSONResponse(
+            status_code=status.HTTP_409_CONFLICT,
+            content={"detail": exception.detail},
+        )
+    if isinstance(exception, EmailAlreadyExists):
         return JSONResponse(
             status_code=status.HTTP_409_CONFLICT,
             content={"detail": exception.detail},

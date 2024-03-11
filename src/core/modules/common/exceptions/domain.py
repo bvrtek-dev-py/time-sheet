@@ -29,3 +29,8 @@ class InvalidCredentials(BaseHttpException):
 class PasswordDoesNotMatch(BaseHttpException):
     status_code = HTTPStatus.CONFLICT
     detail = "Passwords does not match"
+
+
+class EmailAlreadyExists(BaseHttpException):
+    status_code = HTTPStatus.CONFLICT
+    detail = "Email already exists"

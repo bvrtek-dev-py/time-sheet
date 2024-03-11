@@ -1,4 +1,4 @@
-# pylint: disable=R0801, R0913, C0301
+# pylint: disable=R0801, R0913, C0301, R0902:
 from typing import List
 from time_sheet.src.application.modules.auth.services.password_service import (
     PasswordHashService,
@@ -15,6 +15,9 @@ from time_sheet.src.application.modules.user.use_cases.user_delete_use_case impo
 )
 from time_sheet.src.application.modules.user.use_cases.user_get_all_use_case import (
     UserGetAllUseCase,
+)
+from time_sheet.src.application.modules.user.use_cases.user_check_if_email_exist_use_case import (
+    UserCheckIfEmailExistUseCase,
 )
 from time_sheet.src.application.modules.user.use_cases.user_get_by_id_use_case import (
     UserGetByIdUseCase,
@@ -38,6 +41,7 @@ class UserService:
         get_by_id_use_case: UserGetByIdUseCase,
         get_by_email_or_username_use_case: UserGetByEmailOrUsernameUseCase,
         password_hash_service: PasswordHashService,
+        check_if_email_exist_use_case: UserCheckIfEmailExistUseCase,
     ):
         self._create_use_case = create_use_case
         self._delete_use_case = delete_use_case
@@ -46,6 +50,7 @@ class UserService:
         self._get_by_id_use_case = get_by_id_use_case
         self._get_by_email_or_username_use_case = get_by_email_or_username_use_case
         self._password_hash_service = password_hash_service
+        self._check_if_email_exist_use_case = check_if_email_exist_use_case
 
     async def create(self, request_dto: UserCreateDTO) -> UserDTO:
         request_dto.password = self._password_hash_service.hash(request_dto.password)
@@ -68,3 +73,6 @@ class UserService:
 
     async def get_by_email_or_username(self, field: str) -> UserDTO:
         return await self._get_by_email_or_username_use_case.execute(field)
+
+    async def check_if_email_exist(self, email: str) -> bool:
+        return await self._check_if_email_exist_use_case.execute(email)

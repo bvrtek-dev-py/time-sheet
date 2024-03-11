@@ -10,6 +10,9 @@ from time_sheet.src.application.modules.auth.services.password_service import (
     PasswordHashService,
 )
 from time_sheet.src.application.modules.user.services.user_service import UserService
+from time_sheet.src.application.modules.user.use_cases.user_check_if_email_exist_use_case import (
+    UserCheckIfEmailExistUseCase,
+)
 from time_sheet.src.application.modules.user.use_cases.user_create_use_case import (
     UserCreateUseCase,
 )
@@ -89,6 +92,12 @@ def get_user_by_email_or_username_use_case(
     return UserGetByEmailOrUsernameUseCase(repository)
 
 
+def get_user_email_exist_use_case(
+    repository: Annotated[UserRepository, Depends(get_user_repository)]
+) -> UserCheckIfEmailExistUseCase:
+    return UserCheckIfEmailExistUseCase(repository)
+
+
 def get_user_service(
     user_create_use_case: Annotated[
         UserCreateUseCase, Depends(get_user_create_use_case)
@@ -111,6 +120,9 @@ def get_user_service(
     password_hash_service: Annotated[
         PasswordHashService, Depends(get_password_hash_service)
     ],
+    user_check_email_exist: Annotated[
+        UserCheckIfEmailExistUseCase, Depends(get_user_email_exist_use_case)
+    ],
 ) -> UserService:
     return UserService(
         create_use_case=user_create_use_case,
@@ -120,4 +132,5 @@ def get_user_service(
         get_by_id_use_case=user_get_by_id_use_case,
         get_by_email_or_username_use_case=user_get_by_email_or_username_use_case,
         password_hash_service=password_hash_service,
+        check_if_email_exist_use_case=user_check_email_exist,
     )
