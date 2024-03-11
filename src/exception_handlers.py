@@ -31,7 +31,7 @@ def http_exception_handler(request: Request, exception: BaseHttpException):
         )
     if isinstance(exception, InvalidCredentials):
         return JSONResponse(
-            status_code=status.HTTP_404_NOT_FOUND,
+            status_code=status.HTTP_401_UNAUTHORIZED,
             content={"detail": exception.detail},
         )
     if isinstance(exception, PasswordDoesNotMatch):

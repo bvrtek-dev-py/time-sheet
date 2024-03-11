@@ -1,4 +1,6 @@
-from time_sheet.src.application.modules.user.services.user_service import UserService
+from time_sheet.src.application.modules.user.use_cases.user_get_by_email_or_username_use_case import (
+    UserGetByEmailOrUsernameUseCase,
+)
 from time_sheet.src.core.modules.common.exceptions.domain import InvalidCredentials
 from time_sheet.src.core.modules.auth.dto.auth import (
     SuccessAuthenticationDTO,
@@ -15,11 +17,13 @@ class LoginService:
         self,
         verify_service: PasswordVerifyService,
         token_service: TokenService,
-        user_service: UserService,
+        user_get_by_email_or_username_use_case: UserGetByEmailOrUsernameUseCase,
     ):
         self._verify_service = verify_service
         self._token_service = token_service
-        self._user_service = user_service
+        self._user_get_by_email_or_username_use_case = (
+            user_get_by_email_or_username_use_case
+        )
 
     async def login(self, username: str, password: str) -> SuccessAuthenticationDTO:
         user = await self._authenticate(username, password)
@@ -32,7 +36,7 @@ class LoginService:
         )
 
     async def _authenticate(self, username: str, password: str) -> AuthenticatedUserDTO:
-        user = await self._user_service.get_by_email_or_username(username)
+        user = await self._user_get_by_email_or_username_use_case.execute(username)
 
         if not self._verify_service.verify(password, user.password):
             raise InvalidCredentials()
