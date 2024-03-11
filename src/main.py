@@ -13,10 +13,15 @@ from time_sheet.src.infrastructure.ports.api.v1.task.routers import (
     router as task_router,
 )
 
+from time_sheet.src.infrastructure.ports.api.v1.auth.routers import (
+    router as auth_router,
+)
+
 app = FastAPI()
 app.include_router(user_router)
 app.include_router(project_router)
 app.include_router(task_router)
+app.include_router(auth_router)
 
 app.add_exception_handler(BaseHttpException, http_exception_handler)  # type: ignore
 

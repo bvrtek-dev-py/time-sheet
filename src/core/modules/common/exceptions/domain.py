@@ -19,3 +19,13 @@ class InvalidDateFormat(BaseHttpException):
 class InvalidDateRange(BaseHttpException):
     status_code = HTTPStatus.BAD_REQUEST
     detail = "Invalid date range"
+
+
+class InvalidCredentials(BaseHttpException):
+    status_code = HTTPStatus.NOT_FOUND
+    detail = "Invalid login data"
+
+
+class PasswordDoesNotMatch(BaseHttpException):
+    status_code = HTTPStatus.CONFLICT
+    detail = "Passwords does not match"

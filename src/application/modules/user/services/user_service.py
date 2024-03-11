@@ -1,6 +1,8 @@
-# pylint: disable=R0801, R0913
+# pylint: disable=R0801, R0913, C0301
 from typing import List
-
+from time_sheet.src.application.modules.auth.services.password_service import (
+    PasswordHashService,
+)
 from time_sheet.src.application.modules.user.dto.user import (
     UserCreateDTO,
     UserUpdateDTO,
@@ -17,6 +19,9 @@ from time_sheet.src.application.modules.user.use_cases.user_get_all_use_case imp
 from time_sheet.src.application.modules.user.use_cases.user_get_by_id_use_case import (
     UserGetByIdUseCase,
 )
+from time_sheet.src.application.modules.user.use_cases.user_get_by_email_or_username_use_case import (
+    UserGetByEmailOrUsernameUseCase,
+)
 from time_sheet.src.application.modules.user.use_cases.user_update_use_case import (
     UserUpdateUseCase,
 )
@@ -31,14 +36,20 @@ class UserService:
         update_use_case: UserUpdateUseCase,
         get_all_use_case: UserGetAllUseCase,
         get_by_id_use_case: UserGetByIdUseCase,
+        get_by_email_or_username_use_case: UserGetByEmailOrUsernameUseCase,
+        password_hash_service: PasswordHashService,
     ):
         self._create_use_case = create_use_case
         self._delete_use_case = delete_use_case
         self._update_use_case = update_use_case
         self._get_all_use_case = get_all_use_case
         self._get_by_id_use_case = get_by_id_use_case
+        self._get_by_email_or_username_use_case = get_by_email_or_username_use_case
+        self._password_hash_service = password_hash_service
 
     async def create(self, request_dto: UserCreateDTO) -> UserDTO:
+        request_dto.password = self._password_hash_service.hash(request_dto.password)
+
         return await self._create_use_case.execute(request_dto)
 
     async def update(self, user_id: str, request_dto: UserUpdateDTO) -> UserDTO:
@@ -54,3 +65,6 @@ class UserService:
 
     async def get_by_id(self, user_id: str) -> UserDTO:
         return await self._get_by_id_use_case.execute(user_id)
+
+    async def get_by_email_or_username(self, field: str) -> UserDTO:
+        return await self._get_by_email_or_username_use_case.execute(field)

@@ -1,10 +1,13 @@
+# pylint: disable=R0913, C0301
 from typing import Annotated
-
 from fastapi import Depends
 from motor.core import AgnosticClientSession
 
 from time_sheet.src.adapters.modules.user.repositories.user_repository import (
     UserRepository,
+)
+from time_sheet.src.application.modules.auth.services.password_service import (
+    PasswordHashService,
 )
 from time_sheet.src.application.modules.user.services.user_service import UserService
 from time_sheet.src.application.modules.user.use_cases.user_create_use_case import (
@@ -16,6 +19,9 @@ from time_sheet.src.application.modules.user.use_cases.user_delete_use_case impo
 from time_sheet.src.application.modules.user.use_cases.user_get_all_use_case import (
     UserGetAllUseCase,
 )
+from time_sheet.src.application.modules.user.use_cases.user_get_by_email_or_username_use_case import (
+    UserGetByEmailOrUsernameUseCase,
+)
 from time_sheet.src.application.modules.user.use_cases.user_get_by_id_use_case import (
     UserGetByIdUseCase,
 )
@@ -24,6 +30,9 @@ from time_sheet.src.application.modules.user.use_cases.user_update_use_case impo
 )
 from time_sheet.src.core.modules.user.repositories.user_repository import (
     IUserRepository,
+)
+from time_sheet.src.infrastructure.dependencies.auth.creators import (
+    get_password_hash_service,
 )
 from time_sheet.src.infrastructure.dependencies.database.setup import get_session
 
@@ -74,6 +83,12 @@ def get_user_delete_use_case(
     )
 
 
+def get_user_by_email_or_username_use_case(
+    repository: Annotated[UserRepository, Depends(get_user_repository)]
+) -> UserGetByEmailOrUsernameUseCase:
+    return UserGetByEmailOrUsernameUseCase(repository)
+
+
 def get_user_service(
     user_create_use_case: Annotated[
         UserCreateUseCase, Depends(get_user_create_use_case)
@@ -90,6 +105,12 @@ def get_user_service(
     user_get_all_use_case: Annotated[
         UserGetAllUseCase, Depends(get_user_get_all_use_case)
     ],
+    user_get_by_email_or_username_use_case: Annotated[
+        UserGetByEmailOrUsernameUseCase, Depends(get_user_by_email_or_username_use_case)
+    ],
+    password_hash_service: Annotated[
+        PasswordHashService, Depends(get_password_hash_service)
+    ],
 ) -> UserService:
     return UserService(
         create_use_case=user_create_use_case,
@@ -97,4 +118,6 @@ def get_user_service(
         delete_use_case=user_delete_use_case,
         get_all_use_case=user_get_all_use_case,
         get_by_id_use_case=user_get_by_id_use_case,
+        get_by_email_or_username_use_case=user_get_by_email_or_username_use_case,
+        password_hash_service=password_hash_service,
     )
