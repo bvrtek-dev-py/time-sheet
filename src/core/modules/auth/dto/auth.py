@@ -13,7 +13,7 @@ class AuthenticatedUserDTO(BaseModel):
 
 
 class CurrentUserDTO(BaseModel):
-    id: str
+    id: Optional[str] = None
     email: str
 
     class ConfigDict:
