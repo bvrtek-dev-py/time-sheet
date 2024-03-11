@@ -1,19 +1,15 @@
 # pylint: disable=R0801
 from datetime import datetime
 from pydantic import BaseModel
-from typing import Optional
 
 
 class AuthenticatedUserDTO(BaseModel):
-    id: Optional[str] = None
+    id: str
     sub: str
-
-    class ConfigDict:
-        frozen = True
 
 
 class CurrentUserDTO(BaseModel):
-    id: Optional[str] = None
+    id: str
     email: str
 
     class ConfigDict:
