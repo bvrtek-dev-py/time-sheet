@@ -1,8 +1,8 @@
+from time_sheet.src.application.modules.auth.services.token_service import TokenService
 from time_sheet.src.core.modules.auth.dto.auth import (
     AuthenticatedUserDTO,
     SuccessAuthenticationDTO,
 )
-from time_sheet.src.application.modules.auth.services.token_service import TokenService
 
 
 class RefreshTokenService:

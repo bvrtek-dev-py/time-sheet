@@ -3,8 +3,8 @@ from passlib.context import CryptContext
 from time_sheet.src.application.modules.user.use_cases.user_get_by_id_use_case import (
     UserGetByIdUseCase,
 )
-from time_sheet.src.core.modules.common.exceptions.domain import InvalidCredentials
 from time_sheet.src.core.modules.auth.dto.auth import ChangePasswordDTO
+from time_sheet.src.core.modules.common.exceptions.domain import InvalidCredentials
 from time_sheet.src.core.modules.user.dto.user import UserDTO
 from time_sheet.src.core.modules.user.repositories.user_repository import (
     IUserRepository,

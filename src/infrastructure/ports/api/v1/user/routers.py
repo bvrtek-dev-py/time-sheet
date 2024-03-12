@@ -1,8 +1,5 @@
 from typing import Annotated, List
-
 from fastapi import APIRouter, Depends, status
-
-from time_sheet.src.core.modules.common.exceptions.domain import EmailAlreadyExists
 from time_sheet.src.infrastructure.ports.api.v1.common.responses import ErrorResponse
 from time_sheet.src.application.modules.user.dto.user import (
     UserCreateDTO,
@@ -24,15 +21,13 @@ router = APIRouter(prefix="/api/v1/users", tags=["APIv1 User"])
 @router.post(
     "/",
     response_model=UserBaseResponse,
-    responses={201: {"model": UserBaseResponse}},
+    responses={201: {"model": UserBaseResponse}, 409: {"model": ErrorResponse}},
     status_code=status.HTTP_201_CREATED,
 )
 async def create_user(
     request: UserCreateRequest,
     user_service: Annotated[UserService, Depends(get_user_service)],
 ):
-    if await user_service.check_if_email_exist(request.email):
-        raise EmailAlreadyExists()
     return await user_service.create(UserCreateDTO(**request.model_dump()))
 
 

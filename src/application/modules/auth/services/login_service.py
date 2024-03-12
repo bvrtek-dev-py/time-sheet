@@ -1,16 +1,16 @@
 # pylint: disable=C0301
-from time_sheet.src.application.modules.user.use_cases.user_get_by_email_or_username_use_case import (
-    UserGetByEmailOrUsernameUseCase,
-)
-from time_sheet.src.core.modules.common.exceptions.domain import InvalidCredentials
-from time_sheet.src.core.modules.auth.dto.auth import (
-    SuccessAuthenticationDTO,
-    AuthenticatedUserDTO,
-)
 from time_sheet.src.application.modules.auth.services.password_service import (
     PasswordVerifyService,
 )
 from time_sheet.src.application.modules.auth.services.token_service import TokenService
+from time_sheet.src.application.modules.user.use_cases.user_get_by_email_or_username_use_case import (
+    UserGetByEmailOrUsernameUseCase,
+)
+from time_sheet.src.core.modules.auth.dto.auth import (
+    SuccessAuthenticationDTO,
+    AuthenticatedUserDTO,
+)
+from time_sheet.src.core.modules.common.exceptions.domain import InvalidCredentials
 
 
 class LoginService:

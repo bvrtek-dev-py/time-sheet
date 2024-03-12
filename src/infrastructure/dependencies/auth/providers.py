@@ -1,6 +1,8 @@
 # pylint: disable=C0301
 from typing import Annotated
+
 from fastapi import Depends
+
 from time_sheet.src.application.modules.auth.services.login_service import LoginService
 from time_sheet.src.application.modules.auth.services.password_service import (
     PasswordChangeService,

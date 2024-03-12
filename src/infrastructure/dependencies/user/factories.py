@@ -1,5 +1,6 @@
 # pylint: disable=R0913, C0301
 from typing import Annotated
+
 from fastapi import Depends
 from motor.core import AgnosticClientSession
 
