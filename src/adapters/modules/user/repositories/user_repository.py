@@ -44,3 +44,13 @@ class UserRepository(IUserRepository):
         document = await self._session.find_one({"_id": ObjectId(user_id)})
 
         return UserDTO(**document | {"_id": str(document["_id"])}) if document else None
+
+    async def get_by_email(self, email: str) -> UserDTO | None:
+        document = await self._session.find_one({"email": email})
+
+        return UserDTO(**document | {"_id": str(document["_id"])}) if document else None
+
+    async def get_by_username(self, username: str) -> UserDTO | None:
+        document = await self._session.find_one({"fullname": username})
+
+        return UserDTO(**document | {"_id": str(document["_id"])}) if document else None
