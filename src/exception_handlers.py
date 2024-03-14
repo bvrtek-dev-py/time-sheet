@@ -11,6 +11,7 @@ from time_sheet.src.core.modules.common.exceptions.domain import (
     InvalidCredentials,
     PasswordDoesNotMatch,
     EmailAlreadyExists,
+    InvalidObjectIdType,
 )
 
 
@@ -45,7 +46,11 @@ def http_exception_handler(request: Request, exception: BaseHttpException):
             status_code=status.HTTP_409_CONFLICT,
             content={"detail": exception.detail},
         )
-
+    if isinstance(exception, InvalidObjectIdType):
+        return JSONResponse(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            content={"detail": exception.detail},
+        )
     return JSONResponse(
         status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
         content={"detail": "Internal server error"},
