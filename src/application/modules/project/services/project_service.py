@@ -52,7 +52,6 @@ class ProjectService:
     async def update(
         self, project_id: str, request_dto: ProjectUpdateDTO
     ) -> ProjectDTO:
-        await self._user_service.get_by_id(request_dto.owner_id)
 
         return await self._update_use_case.execute(
             request_dto=request_dto, project_id=project_id
