@@ -16,8 +16,8 @@ from time_sheet.src.application.modules.project.use_cases.project_create_use_cas
 from time_sheet.src.application.modules.project.use_cases.project_delete_use_case import (
     ProjectDeleteUseCase,
 )
-from time_sheet.src.application.modules.project.use_cases.project_get_all_by_owner_id import (
-    ProjectGetAllByOwnerIdUseCase,
+from time_sheet.src.application.modules.project.use_cases.project_get_by_owner_id import (
+    ProjectGetByOwnerIdUseCase,
 )
 from time_sheet.src.application.modules.project.use_cases.project_get_all_use_case import (
     ProjectGetAllUseCase,
@@ -60,10 +60,10 @@ def get_project_get_all_use_case(
     return ProjectGetAllUseCase(repository)
 
 
-def get_project_get_all_by_owner_id_use_case(
+def get_project_get_by_owner_id_use_case(
     repository: Annotated[IProjectRepository, Depends(get_project_repository)]
-) -> ProjectGetAllByOwnerIdUseCase:
-    return ProjectGetAllByOwnerIdUseCase(repository)
+) -> ProjectGetByOwnerIdUseCase:
+    return ProjectGetByOwnerIdUseCase(repository)
 
 
 def get_project_update_use_case(
@@ -104,8 +104,8 @@ def get_project_service(
     project_get_all_use_case: Annotated[
         ProjectGetAllUseCase, Depends(get_project_get_all_use_case)
     ],
-    project_get_all_by_owner_id_use_case: Annotated[
-        ProjectGetAllByOwnerIdUseCase, Depends(get_project_get_all_by_owner_id_use_case)
+    project_get_by_owner_id_use_case: Annotated[
+        ProjectGetByOwnerIdUseCase, Depends(get_project_get_by_owner_id_use_case)
     ],
     user_service: Annotated[UserService, Depends(get_user_service)],
 ) -> ProjectService:
@@ -115,6 +115,6 @@ def get_project_service(
         delete_use_case=project_delete_use_case,
         get_all_use_case=project_get_all_use_case,
         get_by_id_use_case=project_get_by_id_use_case,
-        get_all_by_owner_id=project_get_all_by_owner_id_use_case,
+        get_by_owner_id=project_get_by_owner_id_use_case,
         user_service=user_service,
     )

@@ -6,9 +6,9 @@ from time_sheet.src.core.modules.project.repositories.project_repository import 
 )
 
 
-class ProjectGetAllByOwnerIdUseCase:
+class ProjectGetByOwnerIdUseCase:
     def __init__(self, repository: IProjectRepository):
         self._repository = repository
 
     async def execute(self, owner_id: str) -> List[ProjectDTO]:
-        return await self._repository.get_all_by_owner_id(owner_id)
+        return await self._repository.get_by_owner_id(owner_id)

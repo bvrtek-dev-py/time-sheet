@@ -32,15 +32,17 @@ router = APIRouter(prefix="/api/v1/projects", tags=["APIv1 Project"])
     responses={
         201: {"model": ProjectBaseResponse},
         404: {"model": ErrorResponse},
-        422: {"model": ErrorResponse},
     },
     status_code=status.HTTP_201_CREATED,
 )
 async def create_project(
+    current_user: Annotated[CurrentUserDTO, Depends(get_current_user)],
     request: ProjectCreateRequest,
     project_service: Annotated[ProjectService, Depends(get_project_service)],
 ):
-    return await project_service.create(ProjectCreateDTO(**request.model_dump()))
+    return await project_service.create(
+        owner_id=current_user.id, request_dto=ProjectCreateDTO(**request.model_dump())
+    )
 
 
 @router.put(
@@ -49,7 +51,6 @@ async def create_project(
     responses={
         200: {"model": ProjectBaseResponse},
         404: {"model": ErrorResponse},
-        422: {"model": ErrorResponse},
     },
     status_code=status.HTTP_200_OK,
 )

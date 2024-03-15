@@ -34,8 +34,3 @@ class PasswordDoesNotMatch(BaseHttpException):
 class EmailAlreadyExists(BaseHttpException):
     status_code = HTTPStatus.CONFLICT
     detail = "Email already exists"
-
-
-class InvalidObjectIdType(BaseHttpException):
-    status_code = HTTPStatus.UNPROCESSABLE_ENTITY
-    detail = "Invalid ObjectId"

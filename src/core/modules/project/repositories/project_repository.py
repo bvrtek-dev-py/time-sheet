@@ -18,7 +18,7 @@ class IProjectRepository(ABC):
         pass
 
     @abstractmethod
-    async def get_all_by_owner_id(self, owner_id: str) -> List[ProjectDTO]:
+    async def get_by_owner_id(self, owner_id: str) -> List[ProjectDTO]:
         pass
 
     @abstractmethod
