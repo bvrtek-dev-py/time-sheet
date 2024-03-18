@@ -19,6 +19,7 @@ class UserUpdateUseCase:
 
     async def execute(self, request_dto: UserUpdateDTO, user_id: str) -> UserDTO:
         user_dto = await self._get_by_id_use_case.execute(user_id)
-        user_dto.fullname = request_dto.fullname
+        for key, value in request_dto.model_dump().items():
+            setattr(user_dto, key, value)
 
         return await self._repository.update(user_dto)

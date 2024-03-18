@@ -48,3 +48,13 @@ class ProjectRepository(IProjectRepository):
         return (
             ProjectDTO(**document | {"_id": str(document["_id"])}) if document else None
         )
+
+    async def get_by_owner_id(self, owner_id: str) -> List[ProjectDTO]:
+        documents = await self._session.find({"owner_id": owner_id}).to_list(
+            length=None
+        )
+
+        return [
+            ProjectDTO(**document | {"_id": str(document["_id"])})
+            for document in documents
+        ]

@@ -18,6 +18,10 @@ class IProjectRepository(ABC):
         pass
 
     @abstractmethod
+    async def get_by_owner_id(self, owner_id: str) -> List[ProjectDTO]:
+        pass
+
+    @abstractmethod
     async def delete(self, project_id: str) -> None:
         pass
 

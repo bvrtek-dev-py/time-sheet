@@ -21,7 +21,7 @@ class ProjectUpdateUseCase:
         self, request_dto: ProjectUpdateDTO, project_id: str
     ) -> ProjectDTO:
         project_dto = await self._get_by_id_use_case.execute(project_id)
-        project_dto.name = request_dto.name
-        project_dto.description = request_dto.description
+        for key, value in request_dto.model_dump().items():
+            setattr(project_dto, key, value)
 
         return await self._repository.update(project_dto)

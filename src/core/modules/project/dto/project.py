@@ -7,3 +7,4 @@ class ProjectDTO(BaseModel):
     id: Optional[str] = Field(alias="_id")
     name: str
     description: str
+    owner_id: str

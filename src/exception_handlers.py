@@ -45,7 +45,6 @@ def http_exception_handler(request: Request, exception: BaseHttpException):
             status_code=status.HTTP_409_CONFLICT,
             content={"detail": exception.detail},
         )
-
     return JSONResponse(
         status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
         content={"detail": "Internal server error"},
