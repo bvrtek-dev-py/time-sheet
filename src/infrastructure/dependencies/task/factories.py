@@ -1,6 +1,9 @@
+# pylint: disable=R0913
 from typing import Annotated
+
 from fastapi import Depends
 from motor.core import AgnosticClientSession
+
 from time_sheet.src.adapters.modules.task.repositories.task_repository import (
     TaskRepository,
 )
@@ -16,6 +19,9 @@ from time_sheet.src.application.modules.task.use_cases.task_get_all_use_case imp
 )
 from time_sheet.src.application.modules.task.use_cases.task_get_by_id_use_case import (
     TaskGetByIdUseCase,
+)
+from time_sheet.src.application.modules.task.use_cases.task_get_by_owner_id import (
+    TaskGetByOwnerIdUseCase,
 )
 from time_sheet.src.application.modules.task.use_cases.task_update_use_case import (
     TaskUpdateUseCase,
@@ -48,6 +54,12 @@ def get_task_get_all_use_case(
     repository: Annotated[ITaskRepository, Depends(get_task_repository)]
 ) -> TaskGetAllUseCase:
     return TaskGetAllUseCase(repository)
+
+
+def get_task_get_by_owner_id_use_case(
+    repository: Annotated[ITaskRepository, Depends(get_task_repository)]
+) -> TaskGetByOwnerIdUseCase:
+    return TaskGetByOwnerIdUseCase(repository)
 
 
 def get_task_update_use_case(
@@ -88,6 +100,9 @@ def get_task_service(
     task_get_all_use_case: Annotated[
         TaskGetAllUseCase, Depends(get_task_get_all_use_case)
     ],
+    task_get_by_owner_id_use_case: Annotated[
+        TaskGetByOwnerIdUseCase, Depends(get_task_get_by_owner_id_use_case)
+    ],
 ) -> TaskService:
     return TaskService(
         create_use_case=task_create_use_case,
@@ -95,4 +110,5 @@ def get_task_service(
         delete_use_case=task_delete_use_case,
         get_all_use_case=task_get_all_use_case,
         get_by_id_use_case=task_get_by_id_use_case,
+        get_by_owner_id_use_case=task_get_by_owner_id_use_case,
     )

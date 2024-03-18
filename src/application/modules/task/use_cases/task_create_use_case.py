@@ -9,7 +9,6 @@ class TaskCreateUseCase:
     def __init__(self, repository: ITaskRepository):
         self._repository = repository
 
-    async def execute(self, request_dto: TaskCreateDTO) -> TaskDTO:
-        return await self._repository.save(
-            TaskDTO(**request_dto.model_dump(), _id=None)
-        )
+    async def execute(self, owner_id: str, request_dto: TaskCreateDTO) -> TaskDTO:
+        project_dto = TaskDTO(**request_dto.dict(), _id=None, owner_id=owner_id)
+        return await self._repository.save(project_dto)
