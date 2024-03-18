@@ -1,5 +1,6 @@
 import uvicorn
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from time_sheet.src.core.modules.common.exceptions.domain import BaseHttpException
 from time_sheet.src.exception_handlers import http_exception_handler
@@ -24,6 +25,14 @@ app.include_router(task_router)
 app.include_router(auth_router)
 
 app.add_exception_handler(BaseHttpException, http_exception_handler)  # type: ignore
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 if __name__ == "__main__":
