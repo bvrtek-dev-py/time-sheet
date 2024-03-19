@@ -42,7 +42,7 @@ async def create_project(
     project_service: Annotated[ProjectService, Depends(get_project_service)],
 ):
     return await project_service.create(
-        owner_id=current_user.id, request_dto=ProjectCreateDTO(**request.model_dump())
+        ProjectCreateDTO(**request.dict(), _id=None, owner_id=current_user.id)
     )
 
 

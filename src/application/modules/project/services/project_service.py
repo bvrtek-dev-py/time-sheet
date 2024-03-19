@@ -43,8 +43,8 @@ class ProjectService:
         self._get_by_id_use_case = get_by_id_use_case
         self._get_by_owner_id = get_by_owner_id
 
-    async def create(self, owner_id: str, request_dto: ProjectCreateDTO) -> ProjectDTO:
-        return await self._create_use_case.execute(owner_id, request_dto)
+    async def create(self, request_dto: ProjectCreateDTO) -> ProjectDTO:
+        return await self._create_use_case.execute(request_dto)
 
     async def update(
         self, project_id: str, request_dto: ProjectUpdateDTO

@@ -10,7 +10,7 @@ class TaskBaseDTO(BaseModel):
 
 
 class TaskCreateDTO(TaskBaseDTO):
-    pass
+    owner_id: str
 
 
 class TaskUpdateDTO(TaskBaseDTO):

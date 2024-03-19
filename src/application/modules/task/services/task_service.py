@@ -42,8 +42,8 @@ class TaskService:
         self._get_by_id_use_case = get_by_id_use_case
         self._get_by_owner_id_use_case = get_by_owner_id_use_case
 
-    async def create(self, owner_id: str, request_dto: TaskCreateDTO) -> TaskDTO:
-        return await self._create_use_case.execute(owner_id, request_dto)
+    async def create(self, request_dto: TaskCreateDTO) -> TaskDTO:
+        return await self._create_use_case.execute(request_dto)
 
     async def update(self, task_id: str, request_dto: TaskUpdateDTO) -> TaskDTO:
         return await self._update_use_case.execute(
