@@ -44,3 +44,13 @@ class TaskRepository(ITaskRepository):
         document = await self._session.find_one({"_id": ObjectId(task_id)})
 
         return TaskDTO(**document | {"_id": str(document["_id"])}) if document else None
+
+    async def get_by_owner_id(self, owner_id: str) -> List[TaskDTO]:
+        documents = await self._session.find({"owner_id": owner_id}).to_list(
+            length=None
+        )
+
+        return [
+            TaskDTO(**document | {"_id": str(document["_id"])})
+            for document in documents
+        ]

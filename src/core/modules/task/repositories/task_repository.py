@@ -18,6 +18,10 @@ class ITaskRepository(ABC):
         pass
 
     @abstractmethod
+    async def get_by_owner_id(self, owner_id: str) -> List[TaskDTO]:
+        pass
+
+    @abstractmethod
     async def delete(self, task_id: str) -> None:
         pass
 

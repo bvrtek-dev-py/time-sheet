@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 
 from bson.errors import InvalidId
 
@@ -9,11 +9,27 @@ from time_sheet.src.core.modules.common.exceptions.domain import (
 from time_sheet.src.core.modules.common.models.object_id import ObjectId
 
 
-def validate_date_format(date: str) -> None:
+def validate_date_format_from_string(date: str) -> None:
     try:
         datetime.strptime(date, "%Y-%m-%dT%H:%M:%S.%fZ")
     except ValueError as exc:
         raise InvalidDateFormat from exc
+
+
+def validate_date_format_from_date_time(date: datetime) -> None:
+    try:
+        formatted_date = date.strftime("%Y-%m-%dT%H:%M:%S.%fZ")
+        parsed_date = datetime.strptime(
+            formatted_date, "%Y-%m-%dT%H:%M:%S.%fZ"
+        ).replace(tzinfo=timezone.utc)
+    except ValueError as exc:
+        raise InvalidDateFormat from exc
+
+    if date.tzinfo is None:
+        raise InvalidDateFormat
+
+    if date != parsed_date:
+        raise InvalidDateFormat
 
 
 def validate_date_range(start: datetime, end: datetime) -> None:
@@ -21,12 +37,8 @@ def validate_date_range(start: datetime, end: datetime) -> None:
         raise InvalidDateRange
 
 
-def validate_owner_id_type(self) -> "None":
-    owner_id = self.owner_id
-
+def validate_object_id_type(object_id: str) -> None:
     try:
-        ObjectId(owner_id)
+        ObjectId(object_id)
     except InvalidId as exception:
         raise ValueError("Not a valid ObjectId") from exception
-
-    return self

@@ -2,7 +2,7 @@ from pydantic import Field, model_validator
 
 from time_sheet.src.core.modules.common.models.base_model import MongoDBModel
 from time_sheet.src.infrastructure.ports.api.v1.common.validators import (
-    validate_owner_id_type,
+    validate_object_id_type,
 )
 
 
@@ -13,4 +13,4 @@ class Project(MongoDBModel):
 
     @model_validator(mode="after")
     def validate_owner_id(self):
-        validate_owner_id_type(self)
+        validate_object_id_type(self.owner_id)

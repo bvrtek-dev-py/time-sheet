@@ -16,6 +16,9 @@ from time_sheet.src.application.modules.task.use_cases.task_get_all_use_case imp
 from time_sheet.src.application.modules.task.use_cases.task_get_by_id_use_case import (
     TaskGetByIdUseCase,
 )
+from time_sheet.src.application.modules.task.use_cases.task_get_by_owner_id import (
+    TaskGetByOwnerIdUseCase,
+)
 from time_sheet.src.application.modules.task.use_cases.task_update_use_case import (
     TaskUpdateUseCase,
 )
@@ -30,12 +33,14 @@ class TaskService:
         update_use_case: TaskUpdateUseCase,
         get_all_use_case: TaskGetAllUseCase,
         get_by_id_use_case: TaskGetByIdUseCase,
+        get_by_owner_id_use_case: TaskGetByOwnerIdUseCase,
     ):
         self._create_use_case = create_use_case
         self._delete_use_case = delete_use_case
         self._update_use_case = update_use_case
         self._get_all_use_case = get_all_use_case
         self._get_by_id_use_case = get_by_id_use_case
+        self._get_by_owner_id_use_case = get_by_owner_id_use_case
 
     async def create(self, request_dto: TaskCreateDTO) -> TaskDTO:
         return await self._create_use_case.execute(request_dto)
@@ -53,3 +58,6 @@ class TaskService:
 
     async def get_by_id(self, task_id: str) -> TaskDTO:
         return await self._get_by_id_use_case.execute(task_id)
+
+    async def get_by_owner_id(self, owner_id: str) -> List[TaskDTO]:
+        return await self._get_by_owner_id_use_case.execute(owner_id)

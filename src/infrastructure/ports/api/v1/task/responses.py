@@ -1,4 +1,5 @@
 from datetime import datetime
+
 from pydantic import BaseModel
 
 
@@ -8,3 +9,4 @@ class TaskBaseResponse(BaseModel):
     start: datetime
     end: datetime
     additional_information: str
+    owner_id: str

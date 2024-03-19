@@ -10,6 +10,5 @@ class TaskCreateUseCase:
         self._repository = repository
 
     async def execute(self, request_dto: TaskCreateDTO) -> TaskDTO:
-        return await self._repository.save(
-            TaskDTO(**request_dto.model_dump(), _id=None)
-        )
+        task_dto = TaskDTO(**request_dto.model_dump(), _id=None)
+        return await self._repository.save(task_dto)

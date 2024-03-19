@@ -1,5 +1,7 @@
-from typing import Optional
+# pylint: disable=R0801
 from datetime import datetime
+from typing import Optional
+
 from pydantic import BaseModel, Field
 
 
@@ -9,3 +11,4 @@ class TaskDTO(BaseModel):
     start: datetime
     end: datetime
     additional_information: str
+    owner_id: str

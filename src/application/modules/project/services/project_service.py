@@ -23,7 +23,6 @@ from time_sheet.src.application.modules.project.use_cases.project_get_by_id_use_
 from time_sheet.src.application.modules.project.use_cases.project_update_use_case import (
     ProjectUpdateUseCase,
 )
-from time_sheet.src.application.modules.user.services.user_service import UserService
 from time_sheet.src.core.modules.project.dto.project import ProjectDTO
 
 
@@ -36,7 +35,6 @@ class ProjectService:
         get_all_use_case: ProjectGetAllUseCase,
         get_by_id_use_case: ProjectGetByIdUseCase,
         get_by_owner_id: ProjectGetByOwnerIdUseCase,
-        user_service: UserService,
     ):
         self._create_use_case = create_use_case
         self._delete_use_case = delete_use_case
@@ -44,10 +42,9 @@ class ProjectService:
         self._get_all_use_case = get_all_use_case
         self._get_by_id_use_case = get_by_id_use_case
         self._get_by_owner_id = get_by_owner_id
-        self._user_service = user_service
 
-    async def create(self, owner_id: str, request_dto: ProjectCreateDTO) -> ProjectDTO:
-        return await self._create_use_case.execute(owner_id, request_dto)
+    async def create(self, request_dto: ProjectCreateDTO) -> ProjectDTO:
+        return await self._create_use_case.execute(request_dto)
 
     async def update(
         self, project_id: str, request_dto: ProjectUpdateDTO
@@ -66,5 +63,5 @@ class ProjectService:
     async def get_by_id(self, project_id: str) -> ProjectDTO:
         return await self._get_by_id_use_case.execute(project_id)
 
-    async def get_all_by_owned_id(self, owner_id: str) -> List[ProjectDTO]:
+    async def get_by_owner_id(self, owner_id: str) -> List[ProjectDTO]:
         return await self._get_by_owner_id.execute(owner_id)

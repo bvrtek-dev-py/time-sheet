@@ -32,6 +32,7 @@ router = APIRouter(prefix="/api/v1/projects", tags=["APIv1 Project"])
     responses={
         201: {"model": ProjectBaseResponse},
         404: {"model": ErrorResponse},
+        401: {"model": ErrorResponse},
     },
     status_code=status.HTTP_201_CREATED,
 )
@@ -41,7 +42,7 @@ async def create_project(
     project_service: Annotated[ProjectService, Depends(get_project_service)],
 ):
     return await project_service.create(
-        owner_id=current_user.id, request_dto=ProjectCreateDTO(**request.model_dump())
+        ProjectCreateDTO(**request.model_dump() | {"owner_id": current_user.id})
     )
 
 
@@ -85,11 +86,11 @@ async def delete_project(
     },
     status_code=status.HTTP_200_OK,
 )
-async def get_all_by_owner_id_projects(
+async def get_by_owner_id_projects(
     current_user: Annotated[CurrentUserDTO, Depends(get_current_user)],
     project_service: Annotated[ProjectService, Depends(get_project_service)],
 ):
-    return await project_service.get_all_by_owned_id(current_user.id)
+    return await project_service.get_by_owner_id(current_user.id)
 
 
 @router.get(

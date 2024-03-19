@@ -9,6 +9,6 @@ class ProjectCreateUseCase:
     def __init__(self, repository: IProjectRepository):
         self._repository = repository
 
-    async def execute(self, owner_id: str, request_dto: ProjectCreateDTO) -> ProjectDTO:
-        project_dto = ProjectDTO(**request_dto.dict(), _id=None, owner_id=owner_id)
+    async def execute(self, request_dto: ProjectCreateDTO) -> ProjectDTO:
+        project_dto = ProjectDTO(**request_dto.model_dump(), _id=None)
         return await self._repository.save(project_dto)
