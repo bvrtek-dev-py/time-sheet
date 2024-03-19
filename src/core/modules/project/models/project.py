@@ -12,5 +12,5 @@ class Project(MongoDBModel):
     owner_id: str
 
     @model_validator(mode="after")
-    def validate_owner_id(self) -> None:
+    def validate_owner_id(self):
         validate_object_id_type(self.owner_id)

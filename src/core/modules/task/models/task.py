@@ -18,7 +18,7 @@ class Task(MongoDBModel):
     owner_id: str
 
     @model_validator(mode="after")
-    def validate_task_fields(self) -> None:
+    def validate_task_fields(self):
         validate_object_id_type(self.owner_id)
         validate_date_format_from_date_time(self.start)
         validate_date_format_from_date_time(self.end)

@@ -38,7 +38,7 @@ async def create_task(
     task_service: Annotated[TaskService, Depends(get_task_service)],
 ):
     return await task_service.create(
-        TaskCreateDTO(**request.dict(), _id=None, owner_id=current_user.id)
+        TaskCreateDTO(**request.dict(), owner_id=current_user.id)
     )
 
 
