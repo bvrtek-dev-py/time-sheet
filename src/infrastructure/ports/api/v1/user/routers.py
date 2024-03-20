@@ -28,7 +28,9 @@ async def create_user(
     request: UserCreateRequest,
     user_service: Annotated[UserService, Depends(get_user_service)],
 ):
-    return await user_service.create(UserCreateDTO(**request.model_dump()))
+    return await user_service.create(
+        UserCreateDTO(**request.model_dump(exclude={"password_confirmation"}))
+    )
 
 
 @router.put(
