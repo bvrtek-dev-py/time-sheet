@@ -1,5 +1,7 @@
 from pydantic import BaseModel
 
+from time_sheet.src.application.modules.user.dto.user import UserGetDTO
+
 
 class ProjectBaseDTO(BaseModel):
     name: str
@@ -12,3 +14,8 @@ class ProjectCreateDTO(ProjectBaseDTO):
 
 class ProjectUpdateDTO(ProjectBaseDTO):
     pass
+
+
+class ProjectWithOwnerDTO(ProjectBaseDTO):
+    id: str
+    owner: UserGetDTO | None = None

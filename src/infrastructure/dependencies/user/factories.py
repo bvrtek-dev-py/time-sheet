@@ -10,6 +10,9 @@ from time_sheet.src.adapters.modules.user.repositories.user_repository import (
 from time_sheet.src.application.modules.auth.services.password_service import (
     PasswordHashService,
 )
+from time_sheet.src.application.modules.user.mapper.user_dto_to_get_mapper import (
+    UserDTOToGetMapper,
+)
 from time_sheet.src.application.modules.user.services.user_service import UserService
 from time_sheet.src.application.modules.user.use_cases.user_check_if_email_exist_use_case import (
     UserCheckIfEmailExistUseCase,
@@ -39,6 +42,10 @@ from time_sheet.src.infrastructure.dependencies.auth.creators import (
     get_password_hash_service,
 )
 from time_sheet.src.infrastructure.dependencies.database.setup import get_session
+
+
+def get_user_dto_to_get_mapper() -> UserDTOToGetMapper:
+    return UserDTOToGetMapper()
 
 
 def get_user_repository(
