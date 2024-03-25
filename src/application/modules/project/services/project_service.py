@@ -65,8 +65,8 @@ class ProjectService:
     async def delete(self, project_id: str) -> None:
         return await self._delete_use_case.execute(project_id)
 
-    async def get_all(self) -> List[ProjectWithOwnerDTO]:
-        projects = await self._get_all_use_case.execute()
+    async def get_all(self, name: str | None = None) -> List[ProjectWithOwnerDTO]:
+        projects = await self._get_all_use_case.execute(name)
 
         return [
             await self._load_owner_use_case.execute(project) for project in projects

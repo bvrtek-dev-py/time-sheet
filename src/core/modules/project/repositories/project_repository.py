@@ -10,7 +10,7 @@ class IProjectRepository(ABC):
         pass
 
     @abstractmethod
-    async def get_all(self) -> List[ProjectDTO]:
+    async def get_all(self, name: str | None = None) -> List[ProjectDTO]:
         pass
 
     @abstractmethod
