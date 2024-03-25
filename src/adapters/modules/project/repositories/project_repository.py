@@ -34,8 +34,9 @@ class ProjectRepository(IProjectRepository):
     async def delete(self, project_id: str) -> None:
         await self._session.delete_one({"_id": ObjectId(project_id)})
 
-    async def get_all(self) -> List[ProjectDTO]:
-        documents = await self._session.find().to_list(length=None)
+    async def get_all(self, name: str = None) -> List[ProjectDTO]:
+        query = {} if name is None else {"name": {"$regex": name}}
+        documents = await self._session.find(query).to_list(length=None)
 
         return [
             ProjectDTO(**document | {"_id": str(document["_id"])})

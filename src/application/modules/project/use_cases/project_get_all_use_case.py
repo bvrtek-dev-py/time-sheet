@@ -10,5 +10,5 @@ class ProjectGetAllUseCase:
     def __init__(self, repository: IProjectRepository):
         self._repository = repository
 
-    async def execute(self) -> List[ProjectDTO]:
-        return await self._repository.get_all()
+    async def execute(self, name: str = None) -> List[ProjectDTO]:
+        return await self._repository.get_all(name)

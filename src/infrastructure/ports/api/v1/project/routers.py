@@ -101,8 +101,9 @@ async def get_by_owner_id_projects(
 )
 async def get_all_projects(
     project_service: Annotated[ProjectService, Depends(get_project_service)],
+    name: str | None = None,
 ):
-    return await project_service.get_all()
+    return await project_service.get_all(name)
 
 
 @router.get(
