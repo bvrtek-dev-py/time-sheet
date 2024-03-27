@@ -43,13 +43,17 @@ class MemberLoadUserAndProjectUseCase:
         self._project_load_owner_use_case = project_load_owner_use_case
 
     async def execute(self, member: MemberDTO) -> MemberWithUserAndProjectDTO:
-        user = await self._user_get_by_id_use_case.execute(member.user_id)
+        user_dto = await self._user_get_by_id_use_case.execute(member.user_id)
 
-        project = await self._project_get_by_id_use_case.execute(member.project_id)
-        project = await self._project_load_owner_use_case.execute(project)
+        project_dto = await self._project_get_by_id_use_case.execute(member.project_id)
+        project_with_owner_dto = await self._project_load_owner_use_case.execute(
+            project_dto
+        )
 
         mapped_member = self._member_dto_to_with_user_and_project_mapper.map(member)
-        mapped_member.user = self._user_dto_to_get_mapper.map(user)
-        mapped_member.project = self._project_dto_to_get_mapper.map(project)
+        mapped_member.user = self._user_dto_to_get_mapper.map(user_dto)
+        mapped_member.project = self._project_dto_to_get_mapper.map(
+            project_with_owner_dto
+        )
 
         return mapped_member
