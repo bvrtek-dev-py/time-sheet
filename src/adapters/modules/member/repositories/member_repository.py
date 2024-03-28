@@ -4,6 +4,7 @@ from bson import ObjectId
 from motor.core import AgnosticCollection, AgnosticClientSession
 
 from time_sheet.src.core.modules.member.dto.member import MemberDTO
+from time_sheet.src.core.modules.member.enum.member_status import MemberStatus
 from time_sheet.src.core.modules.member.models.member import Member
 from time_sheet.src.core.modules.member.repositories.member_repository import (
     IMemberRepository,
@@ -23,7 +24,7 @@ class MemberRepository(IMemberRepository):
 
         return member
 
-    async def patch(self, member: MemberDTO) -> MemberDTO:
+    async def update(self, member: MemberDTO) -> MemberDTO:
         await self._session.update_one(
             {"_id": ObjectId(member.id)}, {"$set": member.model_dump(exclude={"id"})}
         )
@@ -34,11 +35,11 @@ class MemberRepository(IMemberRepository):
         await self._session.delete_one({"_id": ObjectId(member_id)})
 
     async def get_all_for_project(
-        self, project_id: str, status: str | None = None
+        self, project_id: str, status: MemberStatus | None = None
     ) -> List[MemberDTO]:
         query = {"project_id": project_id}
         if status is not None:
-            query["status"] = status
+            query["status"] = status.value
         documents = await self._session.find(query).to_list(length=None)
 
         return [

@@ -8,15 +8,15 @@ from time_sheet.src.core.modules.member.repositories.member_repository import (
 )
 
 
-class MemberPatchUseCase:
+class MemberStatusChangeUseCase:
     def __init__(
         self, repository: IMemberRepository, get_by_id_use_case: MemberGetByIdUseCase
     ):
         self._repository = repository
         self._get_by_id_use_case = get_by_id_use_case
 
-    async def execute(self, member_id: str) -> MemberDTO:
+    async def execute(self, member_id: str, status: MemberStatus) -> MemberDTO:
         member_dto = await self._get_by_id_use_case.execute(member_id)
-        member_dto.status = MemberStatus.MEMBER.value
+        member_dto.status = status.value
 
-        return await self._repository.patch(member_dto)
+        return await self._repository.update(member_dto)

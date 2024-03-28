@@ -3,6 +3,7 @@ from abc import ABC, abstractmethod
 from typing import List
 
 from time_sheet.src.core.modules.member.dto.member import MemberDTO
+from time_sheet.src.core.modules.member.enum.member_status import MemberStatus
 
 
 class IMemberRepository(ABC):
@@ -12,7 +13,7 @@ class IMemberRepository(ABC):
 
     @abstractmethod
     async def get_all_for_project(
-        self, project_id: str, status: str | None = None
+        self, project_id: str, status: MemberStatus | None = None
     ) -> List[MemberDTO]:
         pass
 
@@ -29,5 +30,5 @@ class IMemberRepository(ABC):
         pass
 
     @abstractmethod
-    async def patch(self, member: MemberDTO) -> MemberDTO:
+    async def update(self, member: MemberDTO) -> MemberDTO:
         pass

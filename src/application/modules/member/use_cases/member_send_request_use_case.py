@@ -6,7 +6,7 @@ from time_sheet.src.core.modules.member.repositories.member_repository import (
 )
 
 
-class MemberCreateUseCase:
+class MemberSendRequestUseCase:
     def __init__(self, repository: IMemberRepository):
         self._repository = repository
 

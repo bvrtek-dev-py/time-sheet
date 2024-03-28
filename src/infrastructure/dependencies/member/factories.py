@@ -13,8 +13,8 @@ from time_sheet.src.application.modules.member.mapper.member_dto_to_with_user_an
 from time_sheet.src.application.modules.member.services.member_service import (
     MemberService,
 )
-from time_sheet.src.application.modules.member.use_cases.member_create_use_case import (
-    MemberCreateUseCase,
+from time_sheet.src.application.modules.member.use_cases.member_send_request_use_case import (
+    MemberSendRequestUseCase,
 )
 from time_sheet.src.application.modules.member.use_cases.member_delete_use_case import (
     MemberDeleteUseCase,
@@ -31,8 +31,8 @@ from time_sheet.src.application.modules.member.use_cases.member_get_by_user_id_u
 from time_sheet.src.application.modules.member.use_cases.member_load_user_and_project_use_case import (
     MemberLoadUserAndProjectUseCase,
 )
-from time_sheet.src.application.modules.member.use_cases.member_patch_use_case import (
-    MemberPatchUseCase,
+from time_sheet.src.application.modules.member.use_cases.member_status_change_use_case import (
+    MemberStatusChangeUseCase,
 )
 from time_sheet.src.application.modules.project.mapper.project_dto_to_get_mapper import (
     ProjectDTOToGetMapper,
@@ -76,10 +76,10 @@ def get_member_repository(
     return MemberRepository(session)
 
 
-def get_member_create_use_case(
+def get_member_send_request_use_case(
     repository: Annotated[IMemberRepository, Depends(get_member_repository)]
-) -> MemberCreateUseCase:
-    return MemberCreateUseCase(repository)
+) -> MemberSendRequestUseCase:
+    return MemberSendRequestUseCase(repository)
 
 
 def get_member_get_by_id_use_case(
@@ -100,13 +100,13 @@ def get_member_get_by_user_id_use_case(
     return MemberGetByUserIdUseCase(repository)
 
 
-def get_member_patch_use_case(
+def get_member_status_change_use_case(
     repository: Annotated[IMemberRepository, Depends(get_member_repository)],
     get_by_id_use_case: Annotated[
         MemberGetByIdUseCase, Depends(get_member_get_by_id_use_case)
     ],
-) -> MemberPatchUseCase:
-    return MemberPatchUseCase(
+) -> MemberStatusChangeUseCase:
+    return MemberStatusChangeUseCase(
         repository=repository, get_by_id_use_case=get_by_id_use_case
     )
 
@@ -154,11 +154,11 @@ def get_member_load_user_and_project_use_case(
 
 
 def get_member_service(
-    member_create_use_case: Annotated[
-        MemberCreateUseCase, Depends(get_member_create_use_case)
+    member_send_request_use_case: Annotated[
+        MemberSendRequestUseCase, Depends(get_member_send_request_use_case)
     ],
-    member_patch_use_case: Annotated[
-        MemberPatchUseCase, Depends(get_member_patch_use_case)
+    member_status_change_use_case: Annotated[
+        MemberStatusChangeUseCase, Depends(get_member_status_change_use_case)
     ],
     member_delete_use_case: Annotated[
         MemberDeleteUseCase, Depends(get_member_delete_use_case)
@@ -178,8 +178,8 @@ def get_member_service(
     ],
 ) -> MemberService:
     return MemberService(
-        create_use_case=member_create_use_case,
-        patch_use_case=member_patch_use_case,
+        member_send_request_use_case=member_send_request_use_case,
+        member_status_change_use_case=member_status_change_use_case,
         delete_use_case=member_delete_use_case,
         get_all_for_project_use_case=member_get_all_for_project_use_case,
         get_by_id_use_case=member_get_by_id_use_case,

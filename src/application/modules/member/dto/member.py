@@ -2,10 +2,11 @@ from pydantic import BaseModel
 
 from time_sheet.src.application.modules.project.dto.project import ProjectGetDTO
 from time_sheet.src.application.modules.user.dto.user import UserGetDTO
+from time_sheet.src.core.modules.member.enum.member_status import MemberStatus
 
 
 class MemberBaseDTO(BaseModel):
-    status: str
+    status: MemberStatus
 
 
 class MemberCreateDTO(BaseModel):
